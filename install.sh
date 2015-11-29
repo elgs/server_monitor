@@ -22,8 +22,8 @@ warn_ram=$(echo "$server_profile" | jq -r '.warn_ram')
 warn_disk=$(echo "$server_profile" | jq -r '.warn_disk')
 warn_conn=$(echo "$server_profile" | jq -r '.warn_conn')
 
-tmp_path="/tmp/server_monitor.sh"
-cp server_monitor.txt "$tmp_path"
+tmp_path="/tmp/server_monitor"
+curl -s -0 https://raw.githubusercontent.com/elgs/server_monitor/master/server_monitor.txt > "$tmp_path"
 chmod +x "$tmp_path"
 
 
