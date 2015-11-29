@@ -39,3 +39,4 @@ sed -i s/__warn_disk__/${warn_disk}/g "$tmp_path"
 sed -i s/__warn_conn__/${warn_conn}/g "$tmp_path"
 
 mv "$tmp_path" /usr/bin
+echo "* * * * * root /usr/bin/server_monitor > /dev/null 2>&1" > /etc/cron.d/server_monitor
