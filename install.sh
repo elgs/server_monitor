@@ -19,6 +19,7 @@ process=$(echo "$server_profile" | jq -r '.process')
 nic=$(echo "$server_profile" | jq -r '.nic')
 warn_cpu=$(echo "$server_profile" | jq -r '.warn_cpu')
 warn_ram=$(echo "$server_profile" | jq -r '.warn_ram')
+warn_swap=$(echo "$server_profile" | jq -r '.warn_swap')
 warn_disk=$(echo "$server_profile" | jq -r '.warn_disk')
 warn_conn=$(echo "$server_profile" | jq -r '.warn_conn')
 
@@ -35,6 +36,7 @@ sed -i s/__process__/${process}/g "$tmp_path"
 sed -i s/__nic__/${nic}/g "$tmp_path"
 sed -i s/__warn_cpu__/${warn_cpu}/g "$tmp_path"
 sed -i s/__warn_ram__/${warn_ram}/g "$tmp_path"
+sed -i s/__warn_swap__/${warn_swap}/g "$tmp_path"
 sed -i s/__warn_disk__/${warn_disk}/g "$tmp_path"
 sed -i s/__warn_conn__/${warn_conn}/g "$tmp_path"
 

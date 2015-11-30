@@ -10,6 +10,7 @@ nic='__nic__'
 
 warn_cpu=__warn_cpu__
 warn_ram=__warn_ram__
+warn_swap=__warn_swap__
 warn_disk=__warn_disk__
 warn_conn=__warn_conn__
 
@@ -41,6 +42,10 @@ if (( `bc <<< "${ram_used}*100/${ram_total} >= ${warn_ram}"` )); then
 fi
 
 IFS=' ' read swap_used swap_total <<< $(free | awk 'NR==4{print $3, $2}')
+if (( "$swap_total" > 0  )) && (( `bc <<< "${swap_used}*100/${swap_total} >= ${warn_swap}"` )); then
+  status="${status}swap:`bc<<<${swap_used}*100/${swap_total}`,"
+fi
+
 
 IFS=' ' read disk_used disk_total <<< $(df "$mount_point" | awk 'NR==2{print $3, $2}')
 if (( `bc <<< "${disk_used}*100/${disk_total} >= ${warn_disk}"` )); then
