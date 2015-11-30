@@ -1,19 +1,25 @@
 #!/bin/bash
 
 server_id="$1"
-app_id="$2"
-token="$3"
+app_id="5f04e621-b137-4fde-81be-b5d16b5c9160"
+token="a1d05b7e-c025-4ca1-ae40-5e08c3aaf97c"
 
 server_data=`curl -s -0 -X GET \
--H "token: ${token}" \
--H "app_id: ${app_id}" \
-"https://netdata.io:2015/api/query_server?query=1&params=${server_id}"`
+-H "token: 7de7ae97-ea02-47df-bf61-05400cc96c43" \
+-H "app_id: $app_id" \
+-F "params=$server_id" \
+"https://netdata.io:2015/api/query_server?query=1"`
 
 if [[ ! -f "/usr/bin/jq" ]] || [[ ! -f "/usr/bin/curl"  ]]; then
   apt-get update && apt-get install -y jq curl
 fi
 
 server_profile=$(echo "$server_data" | jq -r '.data[0].SERVER_PROFILE')
+if [[ "$server_profile" == "null" ]]; then
+  >&2 echo "Failed to get server infomation. Possibly invalid server id."
+  exit 1
+fi
+
 mount_point=$(echo "$server_profile" | jq -r '.mount_point')
 process=$(echo "$server_profile" | jq -r '.process')
 nic=$(echo "$server_profile" | jq -r '.nic')
@@ -25,6 +31,7 @@ warn_conn=$(echo "$server_profile" | jq -r '.warn_conn')
 
 tmp_path="/tmp/server_monitor"
 curl -s -0 https://raw.githubusercontent.com/elgs/server_monitor/master/server_monitor.txt > "$tmp_path"
+#cat server_monitor.txt > "$tmp_path"
 chmod +x "$tmp_path"
 
 

@@ -63,23 +63,22 @@ for ps in "${arr_ps[@]}"; do
   fi
 done
 
-curl -X POST \
--H "token: ${token}" \
--H "app_id: ${app_id}" \
--d '{
-  "SERVER_ID": "'"$server_id"'",
-  "CPU": "'"$cpu"'",
-  "RAM": "'"$ram_used"'",
-  "RAM_TOTAL": "'"$ram_total"'",
-  "SWAP": "'"$swap_used"'",
-  "SWAP_TOTAL": "'"$swap_total"'",
-  "DISK": "'"$disk_used"'",
-  "DISK_TOTAL": "'"$disk_total"'",
-  "NET_IN": "'"$rx"'",
-  "NET_OUT": "'"$tx"'",
-  "UP_TIME": "'"$uptime"'",
-  "CONN": "'"$conn"'",
-  "MON_PS": "'"$mon_ps"'",
-  "STATUS": "'"$status"'"
-}' \
-"https://${nd_server}/api/server_monitor"
+curl -s -0 -X POST \
+-H "token: ""$token" \
+-H "app_id: ""$app_id" \
+-F "params="$server_id","\
+"$cpu"","\
+"$ram_used"","\
+"$ram_total"","\
+"$swap_used"","\
+"$swap_total"","\
+"$disk_used"","\
+"$disk_total"","\
+"$rx"","\
+"$tx"","\
+"$uptime"","\
+"$conn"","\
+"'$mon_ps'"","\
+"$status"","\
+"$server_id" \
+"https://"$nd_server"/api/insert_server_monitor?exec=1"
