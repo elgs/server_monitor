@@ -92,8 +92,8 @@ curl -s -0 -X POST \
 "$conn"","\
 "'$mon_ps',"\
 "'$status',"\
-"$server_id""," \
-"$rx""," \
-"$tx""," \
+"$server_id"","\
+"$rx"","\
+"$tx"","\
 "$server_id" \
 "https://"$nd_server"/api/insert_server_monitor?exec=1"
