@@ -86,8 +86,8 @@ curl -s -0 -X POST \
 "$disk_total"","\
 "$rx"","\
 "$tx"","\
-"$rx_rate"","\
-"$tx_rate"","\
+"$rx"","\
+"$tx"","\
 "$uptime"","\
 "$conn"","\
 "'$mon_ps',"\
