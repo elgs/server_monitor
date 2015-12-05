@@ -95,5 +95,7 @@ curl -s -0 -X POST \
 "$server_id"","\
 "$rx"","\
 "$tx"","\
-"$server_id" \
+"$server_id"","\
+"$warn_rx_rate"","\
+"$warn_rtx_rate" \
 "https://"$nd_server"/api/insert_server_monitor?exec=1"
