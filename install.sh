@@ -61,4 +61,4 @@ sed -i s/__warn_rx_rate__/${warn_rx_rate}/g "$tmp_path"
 sed -i s/__warn_tx_rate__/${warn_tx_rate}/g "$tmp_path"
 
 mv "$tmp_path" /usr/bin
-echo "*/$update_interval * * * * root sleep $(($RANDOM%60)) ; /usr/bin/server_monitor > /dev/null 2>&1" > /etc/cron.d/server_monitor
+echo "*/$update_interval * * * * root sleep $(($RANDOM%60*update_interval)) ; /usr/bin/server_monitor > /dev/null 2>&1" > /etc/cron.d/server_monitor
