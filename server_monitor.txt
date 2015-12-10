@@ -27,7 +27,7 @@ server_data=`curl -s -0 -X GET \
 "https://"$nd_server"/api/query_server?query=1"`
 
 new_version=$(echo "$server_data" | jq -r .data[0].VERSION)
-if (( `bc <<< "$new_version" > "$version"` )) || ( (( `bc <<< "$new_version" < 0` )) && (( `bc <<< "$new_version" != "$version"` )) ); then
+if (( `bc <<< "$new_version" > "$version"` )) || ( (( `bc <<< "$new_version < 0"` )) && (( `bc <<< "$new_version" != "$version"` )) ); then
   echo "New version found: ${new_version}. Starting update..."
   bash <(curl -s0 https://raw.githubusercontent.com/elgs/server_monitor/master/uninstall.sh)
   bash <(curl -s0 https://raw.githubusercontent.com/elgs/server_monitor/master/install.sh) "$server_id"
