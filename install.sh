@@ -11,7 +11,7 @@ server_data=`curl -s -0 -X GET \
 "https://netdata.io:2015/api/query_server?query=1"`
 
 if [[ ! -f "/usr/bin/jq" ]] || [[ ! -f "/usr/bin/curl"  ]]; then
-  apt-get update && apt-get install -y jq curl >> install.log
+  apt-get update && apt-get install -y jq curl
 fi
 
 server_profile=$(echo "$server_data" | jq -r '.data[0].SERVER_PROFILE')
