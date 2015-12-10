@@ -32,6 +32,11 @@ warn_rx=$(echo "$server_profile" | jq -r '.warn_rx')
 warn_tx=$(echo "$server_profile" | jq -r '.warn_tx')
 warn_rx_rate=$(echo "$server_profile" | jq -r '.warn_rx_rate')
 warn_tx_rate=$(echo "$server_profile" | jq -r '.warn_tx_rate')
+update_interval=$(echo "$server_profile" | jq -r '.update_interval')
+
+if [[ "$update_interval" == "null" ]]; then
+	update_interval=1
+fi
 
 tmp_path="/tmp/server_monitor"
 curl -s -0 https://raw.githubusercontent.com/elgs/server_monitor/master/server_monitor.txt > "$tmp_path"
@@ -56,4 +61,4 @@ sed -i s/__warn_rx_rate__/${warn_rx_rate}/g "$tmp_path"
 sed -i s/__warn_tx_rate__/${warn_tx_rate}/g "$tmp_path"
 
 mv "$tmp_path" /usr/bin
-echo "* * * * * root /usr/bin/server_monitor > /dev/null 2>&1" > /etc/cron.d/server_monitor
+echo "*/$update_interval * * * * root sleep $(($RANDOM%60)) ; /usr/bin/server_monitor > /dev/null 2>&1" > /etc/cron.d/server_monitor

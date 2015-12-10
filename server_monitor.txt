@@ -40,7 +40,7 @@ if (( `bc <<< "${conn} >= ${warn_conn}"` )); then
   status="${status}conn:${conn},"
 fi
 
-uptime=$(date "+%Y-%m-%d %H:%M:%S" -d "`awk '{print $1}' /proc/uptime` seconds ago")
+uptime=$(date -u "+%Y-%m-%d %H:%M:%S" -d "`awk '{print $1}' /proc/uptime` seconds ago")
 
 cpu=$(sed -n '2p' <(top -bn2 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1}'))
 if (( `bc <<< "${cpu} >= ${warn_cpu}"` )); then
