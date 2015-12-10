@@ -92,6 +92,8 @@ curl -s -0 -X POST \
 "$conn"","\
 "'$mon_ps',"\
 "'$status',"\
+"$rx"","\
+"$tx"","\
 "$server_id"","\
 "$rx"","\
 "$tx"","\
