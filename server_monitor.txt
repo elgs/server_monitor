@@ -1,14 +1,14 @@
 #!/bin/bash
 
-app_id=__app_id__
-token=__token__
+app_id="__app_id__"
+token="__token__"
 
-server_id=__server_id__
-mount_point=__mount_point__
-process=__process__
-nic=__nic__
-nd_server=__nd_server__
-version=__version__
+server_id="__server_id__"
+mount_point="__mount_point__"
+process="__process__"
+nic="__nic__"
+nd_server="__nd_server__"
+version="__version__"
 
 warn_cpu=__warn_cpu__
 warn_ram=__warn_ram__
@@ -27,7 +27,7 @@ server_data=`curl -s -0 -X GET \
 "https://"$nd_server"/api/query_server?query=1"`
 
 new_version=$(echo "$server_data" | jq -r .data[0].VERSION)
-if [[ "$new_version" > "$version" ]] || [[ "$new_version" < 0 ]]; then
+if (( `bc <<< "$new_version" > "$version"` )) || (( `bc <<< "$new_version" > 0` )); then
   echo "New version found: ${new_version}. Starting update..."
   bash <(curl -s0 https://raw.githubusercontent.com/elgs/server_monitor/master/uninstall.sh)
   bash <(curl -s0 https://raw.githubusercontent.com/elgs/server_monitor/master/install.sh) "$server_id"
