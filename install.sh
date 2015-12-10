@@ -36,6 +36,7 @@ warn_rx=$(echo "$server_profile" | jq -r '.warn_rx')
 warn_tx=$(echo "$server_profile" | jq -r '.warn_tx')
 warn_rx_rate=$(echo "$server_profile" | jq -r '.warn_rx_rate')
 warn_tx_rate=$(echo "$server_profile" | jq -r '.warn_tx_rate')
+update_interval=$(echo "$update_interval" | jq -r '.warn_tx_rate')
 
 if [[ "$update_interval" == "null" ]]; then
 	update_interval=1
