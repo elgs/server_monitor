@@ -124,6 +124,7 @@ curl -s -0 -X POST \
 "$tx"","\
 "$rx"","\
 "$tx"","\
+"$version"","\
 "$server_id"","\
 "$server_id" \
 "https://"$nd_server"/api/insert_server_monitor?exec=1"
