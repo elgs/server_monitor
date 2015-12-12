@@ -100,6 +100,11 @@ for ps in "${arr_ps[@]}"; do
   fi
 done
 
+status_code=0
+if [[ "$status" == "" ]]; then
+  status_code = 1
+fi
+
 curl -s -0 -X POST \
 -H "token: ""$token" \
 -H "app_id: ""$app_id" \
@@ -119,6 +124,7 @@ curl -s -0 -X POST \
 "$conn"","\
 "'$mon_ps',"\
 "'$status',"\
+"'$status_code',"\
 "$server_id"","\
 "$rx"","\
 "$tx"","\
