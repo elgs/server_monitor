@@ -101,7 +101,7 @@ for ps in "${arr_ps[@]}"; do
 done
 
 status_code=0
-if [[ "$status" == "" ]]; then
+if [[ "$status" != "" ]]; then
   status_code=1
 fi
 
