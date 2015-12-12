@@ -102,7 +102,7 @@ done
 
 status_code=0
 if [[ "$status" == "" ]]; then
-  status_code = 1
+  status_code=1
 fi
 
 curl -s -0 -X POST \
@@ -123,8 +123,8 @@ curl -s -0 -X POST \
 "$uptime"","\
 "$conn"","\
 "'$mon_ps',"\
-"'$status',"\
 "'$status_code',"\
+"'$status',"\
 "$server_id"","\
 "$rx"","\
 "$tx"","\
