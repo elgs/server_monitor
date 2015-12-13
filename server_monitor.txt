@@ -32,6 +32,7 @@ if (( `bc <<< "${new_version}>${version}"` )) || (( `bc <<< "${new_version}<0"` 
   bash <(curl -s0 https://raw.githubusercontent.com/elgs/server_monitor/master/uninstall.sh)
   bash <(curl -s0 https://raw.githubusercontent.com/elgs/server_monitor/master/install.sh) "$server_id"
   echo "Update completed."
+  $0
   exit 0
 fi
 
