@@ -1,8 +1,8 @@
 #!/bin/bash
 
 server_id="$1"
-app_id="5f04e621-b137-4fde-81be-b5d16b5c9160"
-token="a1d05b7e-c025-4ca1-ae40-5e08c3aaf97c"
+app_id="5f04e621b1374fde81beb5d16b5c9160"
+token="a1d05b7ec0254ca1ae405e08c3aaf97c"
 
 nd_server=`curl -s0 https://netdata.io:2015/sys/get_server`
 
