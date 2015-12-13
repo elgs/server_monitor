@@ -23,6 +23,8 @@ if [[ "$server_profile" == "null" ]]; then
 fi
 
 version=$(echo "$server_data" | jq -r '.data[0].VERSION')
+update_interval=$(echo "$server_profile" | jq -r '.data[0].UPDATE_INTERVAL')
+exec_offset=$(echo "$server_profile" | jq -r '.data[0].EXEC_OFFSET')
 
 mount_point=$(echo "$server_profile" | jq -r '.mount_point')
 process=$(echo "$server_profile" | jq -r '.process')
@@ -36,9 +38,9 @@ warn_rx=$(echo "$server_profile" | jq -r '.warn_rx')
 warn_tx=$(echo "$server_profile" | jq -r '.warn_tx')
 warn_rx_rate=$(echo "$server_profile" | jq -r '.warn_rx_rate')
 warn_tx_rate=$(echo "$server_profile" | jq -r '.warn_tx_rate')
-update_interval=$(echo "$server_profile" | jq -r '.update_interval')
 
-if [[ "$update_interval" == "null" ]]; then
+
+if [[ ! "$update_interval" =~ ^[0-9]+$ ]] || (( "$update_interval" == 0 )); then
 	update_interval=1
 fi
 
@@ -67,4 +69,4 @@ sed -i s/__warn_rx_rate__/${warn_rx_rate}/g "$tmp_path"
 sed -i s/__warn_tx_rate__/${warn_tx_rate}/g "$tmp_path"
 
 mv "$tmp_path" /usr/bin
-echo "*/$update_interval * * * * root sleep $(($RANDOM%60*update_interval)) ; /usr/bin/server_monitor > /dev/null 2>&1" > /etc/cron.d/server_monitor
+echo "*/$update_interval * * * * root sleep $exec_offset ; /usr/bin/server_monitor > /dev/null 2>&1" > /etc/cron.d/server_monitor
