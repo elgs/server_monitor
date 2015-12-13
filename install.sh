@@ -23,8 +23,8 @@ if [[ "$server_profile" == "null" ]]; then
 fi
 
 version=$(echo "$server_data" | jq -r '.data[0].VERSION')
-update_interval=$(echo "$server_profile" | jq -r '.data[0].UPDATE_INTERVAL')
-exec_offset=$(echo "$server_profile" | jq -r '.data[0].EXEC_OFFSET')
+update_interval=$(echo "$server_data" | jq -r '.data[0].UPDATE_INTERVAL')
+exec_offset=$(echo "$server_data" | jq -r '.data[0].EXEC_OFFSET')
 
 mount_point=$(echo "$server_profile" | jq -r '.mount_point')
 process=$(echo "$server_profile" | jq -r '.process')
