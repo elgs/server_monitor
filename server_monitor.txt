@@ -109,6 +109,7 @@ fi
 curl -s -0 -X POST \
 -H "token: ""$token" \
 -H "app_id: ""$app_id" \
+-F "query_params: ""$server_id" \
 -F "params="$server_id","\
 "$cpu"","\
 "$ram_used"","\
