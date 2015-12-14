@@ -4,6 +4,10 @@ server_id="$1"
 app_id="5f04e621b1374fde81beb5d16b5c9160"
 token="a1d05b7ec0254ca1ae405e08c3aaf97c"
 
+if [[ ! -f "/usr/bin/jq" ]] || [[ ! -f "/usr/bin/curl"  ]]; then
+  apt-get update && apt-get install -y jq curl
+fi
+
 nd_server=`curl -s0 https://netdata.io:2015/sys/get_server`
 
 server_data=`curl -s -0 -X GET \
@@ -12,15 +16,17 @@ server_data=`curl -s -0 -X GET \
 -F "params=$server_id" \
 "https://$nd_server/api/query_server?query=1"`
 
-if [[ ! -f "/usr/bin/jq" ]] || [[ ! -f "/usr/bin/curl"  ]]; then
-  apt-get update && apt-get install -y jq curl
-fi
-
 server_profile=$(echo "$server_data" | jq -r '.data[0].SERVER_PROFILE')
 if [[ "$server_profile" == "null" ]]; then
   >&2 echo "Failed to get server infomation. Possibly invalid server id."
   exit 1
 fi
+
+curl -s -0 -X POST \
+-H "token: $token" \
+-H "app_id: $app_id" \
+-F "query_params=$server_id" \
+"https://$nd_server/api/init?exec=1"
 
 version=$(echo "$server_data" | jq -r '.data[0].VERSION')
 update_interval=$(echo "$server_data" | jq -r '.data[0].UPDATE_INTERVAL')
