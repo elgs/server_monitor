@@ -4,8 +4,8 @@ server_id="$1"
 app_id="5f04e621b1374fde81beb5d16b5c9160"
 token="a1d05b7ec0254ca1ae405e08c3aaf97c"
 
-if [[ ! -f "/usr/bin/jq" ]] || [[ ! -f "/usr/bin/curl"  ]]; then
-  apt-get update && apt-get install -y jq curl
+if [[ ! -f "/usr/bin/jq" ]] || [[ ! -f "/usr/bin/curl"  ]] || [[ ! -f "/usr/bin/bc"  ]]; then
+  apt-get update && apt-get install -y jq curl bc
 fi
 
 nd_server=`curl -s0 https://netdata.io:2015/sys/get_server`
