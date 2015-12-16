@@ -21,6 +21,7 @@ server_data=`curl -s -0 -X GET \
 -H "token: $token" \
 -H "app_id: $app_id" \
 -F "params=$server_id" \
+-F "query_params=1901-01-01 00:00:00"
 "https://$nd_server/api/query_server?query=1"`
 
 server_profile=$(echo "$server_data" | jq -r '.data[0].SERVER_PROFILE')

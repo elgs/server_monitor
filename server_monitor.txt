@@ -20,10 +20,13 @@ warn_tx=__warn_tx__
 warn_rx_rate=__warn_rx_rate__
 warn_tx_rate=__warn_tx_rate__
 
+uptime=$(date -u "+%Y-%m-%d %H:%M:%S" -d "`awk '{print $1}' /proc/uptime` seconds ago")
+
 server_data=`curl -s -0 -X GET \
 -H "token: ""$token" \
 -H "app_id: ""$app_id" \
 -F "params=$server_id" \
+-F "query_params=$uptime"
 "https://"$nd_server"/api/query_server?query=1"`
 
 new_version=$(echo "$server_data" | jq -r .data[0].VERSION)
@@ -67,8 +70,6 @@ conn=$(netstat -an | wc -l)
 if (( `bc <<< "${conn} >= ${warn_conn}"` )); then
   status="${status}conn:${conn},"
 fi
-
-uptime=$(date -u "+%Y-%m-%d %H:%M:%S" -d "`awk '{print $1}' /proc/uptime` seconds ago")
 
 cpu=$(sed -n '2p' <(top -bn2 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1}'))
 if (( `bc <<< "${cpu} >= ${warn_cpu}"` )); then
