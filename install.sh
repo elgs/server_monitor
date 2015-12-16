@@ -13,6 +13,9 @@ elif [[ -f "/usr/bin/yum" ]]; then
 		wget -O /usr/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64
 		chmod +x /usr/bin/jq
 	fi
+	if [[ ! -f "/usr/bin/bc" ]]; then
+		yum install -y bc
+	fi
 fi
 
 nd_server=`curl -s0 https://netdata.io:2015/sys/get_server`
