@@ -75,7 +75,7 @@ if (( `bc <<< "${cpu} >= ${warn_cpu}"` )); then
   status="${status}cpu:${cpu},"
 fi
 
-if [[ -f usr/bin/apt-get ]]; then
+if [[ -f "usr/bin/apt-get" ]]; then
   IFS=' ' read ram_used ram_total <<< $(free | awk 'NR==3{print $3, $3+$4}')
   if (( `bc <<< "${ram_used}*100/${ram_total} >= ${warn_ram}"` )); then
     status="${status}ram:`bc<<<${ram_used}*100/${ram_total}`,"
@@ -85,7 +85,7 @@ if [[ -f usr/bin/apt-get ]]; then
   if (( "$swap_total" > 0  )) && (( `bc <<< "${swap_used}*100/${swap_total} >= ${warn_swap}"` )); then
     status="${status}swap:`bc<<<${swap_used}*100/${swap_total}`,"
   fi
-elif [[ -f usr/bin/yum ]]; then
+elif [[ -f "usr/bin/yum" ]]; then
   IFS=' ' read ram_used ram_total <<< $(free | awk 'NR==2{print $3, $2}')
   if (( `bc <<< "${ram_used}*100/${ram_total} >= ${warn_ram}"` )); then
     status="${status}ram:`bc<<<${ram_used}*100/${ram_total}`,"

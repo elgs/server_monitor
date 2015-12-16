@@ -4,11 +4,11 @@ server_id="$1"
 app_id="5f04e621b1374fde81beb5d16b5c9160"
 token="a1d05b7ec0254ca1ae405e08c3aaf97c"
 
-if [[ -f usr/bin/apt-get ]]; then
+if [[ -f "usr/bin/apt-get" ]]; then
 	if [[ ! -f "/usr/bin/jq" ]] || [[ ! -f "/usr/bin/curl"  ]] || [[ ! -f "/usr/bin/bc"  ]]; then
 		apt-get update && apt-get install -y jq curl bc
 	fi
-elif [[ -f usr/bin/yum ]]; then
+elif [[ -f "usr/bin/yum" ]]; then
 	if [[ ! -f "/usr/bin/jq" ]]; then
 		wget -O /usr/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64
 		chmod +x /usr/bin/jq
