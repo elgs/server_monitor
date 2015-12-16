@@ -42,7 +42,7 @@ seconds_since_last_update=$(echo "$server_data" | jq -r .data[0].SECONDS_SINCE_L
 
 status=''
 
-IFS=' ' read rx tx <<< $(cat /proc/net/dev | grep "$nic" | awk -F ':[ \t]*|[ \t]+' '{print $3,$11}') 
+IFS=' ' read rx tx <<< $(cat /proc/net/dev | grep "$nic" | awk -F ':' '{print $2}' | awk '{print $1,$9}')
 
 if (( `bc <<< "${rx} >= ${warn_rx}"` )); then
   status="${status}rx:${rx},"
