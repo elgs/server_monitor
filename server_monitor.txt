@@ -15,8 +15,8 @@ warn_ram=__warn_ram__
 warn_swap=__warn_swap__
 warn_disk=__warn_disk__
 warn_conn=__warn_conn__
-warn_rx=__warn_rx__
-warn_tx=__warn_tx__
+# warn_rx=__warn_rx__
+# warn_tx=__warn_tx__
 warn_rx_rate=__warn_rx_rate__
 warn_tx_rate=__warn_tx_rate__
 
@@ -47,13 +47,13 @@ status=''
 
 IFS=' ' read rx tx <<< $(cat /proc/net/dev | grep "$nic" | awk -F ':' '{print $2}' | awk '{print $1,$9}')
 
-if (( `bc <<< "${rx} >= ${warn_rx}"` )); then
-  status="${status}rx:${rx},"
-fi
+# if (( `bc <<< "${rx} >= ${warn_rx}"` )); then
+#   status="${status}rx:${rx},"
+# fi
 
-if (( `bc <<< "${tx} >= ${warn_tx}"` )); then
-  status="${status}tx:${tx},"
-fi
+# if (( `bc <<< "${tx} >= ${warn_tx}"` )); then
+#   status="${status}tx:${tx},"
+# fi
 
 rx_rate=`bc <<< "(${rx}-${last_rx})/${seconds_since_last_update}"`
 tx_rate=`bc <<< "(${tx}-${last_tx})/${seconds_since_last_update}"`
