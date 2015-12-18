@@ -10,7 +10,7 @@ if [[ -f "/usr/bin/apt-get" ]]; then
 		apt-get install -y jq
 		apt-get install -y curl
 		apt-get install -y bc
-		apt-get install -y dstat
+		apt-get install -y dstat > /tmp/dstat.log
 	fi
 elif [[ -f "/usr/bin/yum" ]]; then
 	if [[ ! -f "/usr/bin/jq" ]]; then
