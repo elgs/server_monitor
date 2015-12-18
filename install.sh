@@ -6,11 +6,7 @@ token="a1d05b7ec0254ca1ae405e08c3aaf97c"
 
 if [[ -f "/usr/bin/apt-get" ]]; then
 	if [[ ! -f "/usr/bin/jq" ]] || [[ ! -f "/usr/bin/curl"  ]] || [[ ! -f "/usr/bin/bc"  ]] || [[ ! -f "/usr/bin/dstat"  ]]; then
-		apt-get update
-		apt-get install -y jq
-		apt-get install -y curl
-		apt-get install -y bc
-		apt-get install -y dstat > /tmp/dstat.log
+		apt-get update && apt-get install -y jq curl bc dstat
 	fi
 elif [[ -f "/usr/bin/yum" ]]; then
 	if [[ ! -f "/usr/bin/jq" ]]; then
