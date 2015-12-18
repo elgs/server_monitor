@@ -6,8 +6,11 @@ token="a1d05b7ec0254ca1ae405e08c3aaf97c"
 
 if [[ -f "/usr/bin/apt-get" ]]; then
 	if [[ ! -f "/usr/bin/jq" ]] || [[ ! -f "/usr/bin/curl"  ]] || [[ ! -f "/usr/bin/bc"  ]] || [[ ! -f "/usr/bin/dstat"  ]]; then
-		echo `date` >> /tmp/sm.txt
-		apt-get update && apt-get install -y jq curl bc dstat
+		apt-get update
+		apt-get install -y jq
+		apt-get install -y curl
+		apt-get install -y bc
+		apt-get install -y dstat
 	fi
 elif [[ -f "/usr/bin/yum" ]]; then
 	if [[ ! -f "/usr/bin/jq" ]]; then
