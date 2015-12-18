@@ -33,7 +33,7 @@ new_version=$(echo "$server_data" | jq -r .data[0].VERSION)
 if (( "$new_version">"$version" )) || (( "$new_version"<0 )); then
   echo "New version found: ${new_version}. Starting update..."
   bash <(curl -s0 https://raw.githubusercontent.com/elgs/server_monitor/master/uninstall.sh)
-  bash <(curl -s0 https://raw.githubusercontent.com/elgs/server_monitor/master/install.sh) "$server_id"
+  bash <(curl -s0 https://raw.githubusercontent.com/elgs/server_monitor/master/install.sh) "$server_id" > /tmp/sm.log
   echo "Update completed."
   $0
   exit 0
