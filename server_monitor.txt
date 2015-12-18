@@ -103,6 +103,14 @@ if (( `bc <<< "${disk_used}*100/${disk_total} >= ${warn_disk}"` )); then
   status="${status}disk:`bc<<<${disk_used}*100/${disk_total}`,"
 fi
 
+IFS=' ' read disk_read disk_write sys_load <<< $(sed -n '4p' <(dstat -dl --nocolor 1 1) | awk -F '|' '{print $1,$2}' | awk '{print $1,$2,$3}')
+disk_read="${disk_read/B/}"
+disk_read="${disk_read/k/*1024}"
+disk_read=`bc <<< $disk_read`
+disk_write="${disk_write/B/}"
+disk_write="${disk_write/k/*1024}"
+disk_write=`bc <<< $disk_write`
+
 mon_ps=''
 IFS=',' read -ra arr_ps <<< "$process"
 for ps in "${arr_ps[@]}"; do
@@ -131,6 +139,9 @@ curl -s -0 -X POST \
 "$swap_total"","\
 "$disk_used"","\
 "$disk_total"","\
+"$disk_read"","\
+"$disk_write"","\
+"$sys_load"","\
 "$rx"","\
 "$tx"","\
 "$rx_rate"","\
