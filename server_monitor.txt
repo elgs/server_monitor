@@ -29,6 +29,15 @@ server_data=`curl -s -0 -X GET \
 -F "query_params=$uptime" \
 "https://"$nd_server"/api/query_server?query=1"`
 
+if [[ -z "$server_data" ]]; then
+  echo "Failed to connect to server. Trying to find a new server..."
+  bash <(curl -s0 https://raw.githubusercontent.com/elgs/server_monitor/master/uninstall.sh)
+  bash <(curl -s0 https://raw.githubusercontent.com/elgs/server_monitor/master/install.sh) "$server_id"
+  echo "New server found."
+  $0
+  exit 0
+fi
+
 new_version=$(echo "$server_data" | jq -r .data[0].VERSION)
 if (( "$new_version">"$version" )) || (( "$new_version"<0 )); then
   echo "New version found: ${new_version}. Starting update..."
