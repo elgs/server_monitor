@@ -55,6 +55,7 @@ warn_rx=$(echo "$server_profile" | jq -r '.warn_rx')
 warn_tx=$(echo "$server_profile" | jq -r '.warn_tx')
 warn_rx_rate=$(echo "$server_profile" | jq -r '.warn_rx_rate')
 warn_tx_rate=$(echo "$server_profile" | jq -r '.warn_tx_rate')
+monitor_mysql_slave=$(echo "$server_profile" | jq -r '.monitor_mysql_slave')
 
 
 if [[ ! "$update_interval" =~ ^[0-9]+$ ]] || (( "$update_interval" == 0 )); then
@@ -84,6 +85,7 @@ sed -i s/__warn_rx__/${warn_rx}/g "$tmp_path"
 sed -i s/__warn_tx__/${warn_tx}/g "$tmp_path"
 sed -i s/__warn_rx_rate__/${warn_rx_rate}/g "$tmp_path"
 sed -i s/__warn_tx_rate__/${warn_tx_rate}/g "$tmp_path"
+sed -i s/__monitor_mysql_slave__/${monitor_mysql_slave}/g "$tmp_path"
 
 mv "$tmp_path" /usr/bin
 echo "*/$update_interval * * * * root sleep $exec_offset ; /usr/bin/server_monitor > /dev/null 2>&1" > /etc/cron.d/server_monitor
