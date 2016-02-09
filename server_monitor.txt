@@ -132,7 +132,7 @@ for ps in "${arr_ps[@]}"; do
   fi
 done
 
-if [[ "$monitor_mysql_slave" -ne 0 ]]; then
+if [[ "$monitor_mysql_slave" -eq 1 ]]; then
   mysql_slave_data=$(mysql -se "SHOW SLAVE STATUS\G" | grep "Seconds_Behind_Master:\|Running:\|Slave_SQL_Running_State:")
   line1=`sed '1q;d' <(echo "$mysql_slave_data")`
   slave_io_running=${line1##*:}
