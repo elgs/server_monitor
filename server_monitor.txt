@@ -136,17 +136,17 @@ if [[ "$monitor_mysql_slave" -eq 1 ]]; then
   mysql_slave_data=$(mysql -se "SHOW SLAVE STATUS\G" | grep "Seconds_Behind_Master:\|Running:\|Slave_SQL_Running_State:")
   line1=`sed '1q;d' <(echo "$mysql_slave_data")`
   line1=`sed -e 's/[[:space:]]*$//' <<<${line1}`
-  slave_io_running=${line1##*:}
+  slave_io_running=`sed -e 's/[[:space:]]*$//' <<<${line1##*:}`
   line2=`sed '2q;d' <(echo "$mysql_slave_data")`
   line2=`sed -e 's/[[:space:]]*$//' <<<${line2}`
-  slave_sql_running=${line2##*:}
+  slave_sql_running=`sed -e 's/[[:space:]]*$//' <<<${line2##*:}`
   line3=`sed '3q;d' <(echo "$mysql_slave_data")`
   line3=`sed -e 's/[[:space:]]*$//' <<<${line3}`
-  seconds_behind_master=${line3##*:}
+  seconds_behind_master=`sed -e 's/[[:space:]]*$//' <<<${line3##*:}`
   if [[ "$slave_io_running" != "Yes" ]] || [[ "$slave_sql_running" != "Yes" ]] || [[ "$seconds_behind_master" != "0" ]]; then
     line4=`sed '4q;d' <(echo "$mysql_slave_data")`
     line4=`sed -e 's/[[:space:]]*$//' <<<${line4}`
-    slave_sql_running_state=${line4##*:}
+    slave_sql_running_state=`sed -e 's/[[:space:]]*$//' <<<${line4##*:}`
     status="${status}${line1},${line2},${line3},${slave_sql_running_state},"
   fi
 fi
