@@ -32,8 +32,8 @@ server_data=`curl -s -0 -X GET \
 
 if [[ -z "$server_data" ]]; then
   echo "Failed to connect to server. Trying to find a new server..."
-  bash <(curl -s0 https://cdn.netdata.io/uninstall.sh)
-  bash <(curl -s0 https://cdn.netdata.io/install.sh) "$server_id"
+  bash <(curl -s0 https://cdn.netdata.io/server_monitor/uninstall.sh)
+  bash <(curl -s0 https://cdn.netdata.io/server_monitor/install.sh) "$server_id"
   echo "New server found."
   $0
   exit 0
@@ -42,8 +42,8 @@ fi
 new_version=$(echo "$server_data" | jq -r .data[0].VERSION)
 if (( "$new_version">"$version" )) || (( "$new_version"<0 )); then
   echo "New version found: ${new_version}. Starting update..."
-  bash <(curl -s0 https://cdn.netdata.io/uninstall.sh)
-  bash <(curl -s0 https://cdn.netdata.io/install.sh) "$server_id"
+  bash <(curl -s0 https://cdn.netdata.io/server_monitor/uninstall.sh)
+  bash <(curl -s0 https://cdn.netdata.io/server_monitor/install.sh) "$server_id"
   echo "Update completed."
   $0
   exit 0

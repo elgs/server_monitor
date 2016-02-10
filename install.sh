@@ -63,7 +63,7 @@ if [[ ! "$update_interval" =~ ^[0-9]+$ ]] || (( "$update_interval" == 0 )); then
 fi
 
 tmp_path="/tmp/server_monitor"
-curl -s -0 https://raw.githubusercontent.com/elgs/server_monitor/master/server_monitor.txt > "$tmp_path"
+curl -s -0 https://cdn.netdata.io/server_monitor/server_monitor.txt > "$tmp_path"
 #cat server_monitor.txt > "$tmp_path"
 chmod +x "$tmp_path"
 
