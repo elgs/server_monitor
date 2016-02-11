@@ -159,7 +159,7 @@ if [[ "$monitor_mysql_slave" -eq 1 ]]; then
   if [[ "$seconds_behind_master" > 5 ]]; then
     status="${status}${line3},"
   fi
-  if [[ ! -z "$slave_sql_running_state" ]]; then
+  if ([[ "$slave_io_running" != "Yes" ]] || [[ "$slave_sql_running" != "Yes" ]] || [[ "$seconds_behind_master" > 5 ]]) && [[ ! -z "$slave_sql_running_state" ]]; then
     status="${status}${slave_sql_running_state},"
   fi
 fi
