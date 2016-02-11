@@ -65,8 +65,8 @@ IFS=' ' read rx tx <<< $(cat /proc/net/dev | grep "$nic" | awk -F ':' '{print $2
 
 rx_rate=`bc <<< "(${rx}-${last_rx})/${seconds_since_last_update}"`
 tx_rate=`bc <<< "(${tx}-${last_tx})/${seconds_since_last_update}"`
-rx_rate_text=$(printf '%.2f' `bc <<< "${rx_rate}/1048576"`)
-tx_rate_text=$(printf '%.2f' `bc <<< "${tx_rate}/1048576"`)
+rx_rate_text="$(printf '%.2f' `bc <<< "${rx_rate}/1048576"`) Mbps"
+tx_rate_text="$(printf '%.2f' `bc <<< "${tx_rate}/1048576"`) Mbps"
 
 if (( `bc <<< "${rx_rate} >= ${warn_rx_rate}"` )); then
   status="${status}rx_rate:${rx_rate_text},"
