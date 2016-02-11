@@ -27,13 +27,18 @@ server_data=`curl -s -0 -X GET \
 -F "query_params=1901-01-01 00:00:00" \
 "https://$nd_server/api/query_server?query=1"`
 
+if [[ -z "$server_data" ]]; then
+	echo "Failed to get server data."
+	exit 1
+fi
+
 server_profile=$(echo "$server_data" | jq -r '.data[0].SERVER_PROFILE')
 if [[ "$server_profile" == "null" ]]; then
   >&2 echo "Failed to get server infomation. Possibly invalid server id."
   exit 1
 fi
 
-curl -s -0 -X POST \
+curl -s0 -X POST \
 -H "token: $token" \
 -H "app_id: $app_id" \
 -F "query_params=$server_id" \
@@ -63,7 +68,14 @@ if [[ ! "$update_interval" =~ ^[0-9]+$ ]] || (( "$update_interval" == 0 )); then
 fi
 
 tmp_path="/tmp/server_monitor"
-curl -s -0 https://cdn.netdata.io/server_monitor/server_monitor.txt > "$tmp_path"
+script_code=`curl -s0 https://cdn.netdata.io/server_monitor/server_monitor.txt`
+
+if [[ -z "$script_code" ]]; then
+	echo "Failed to download source code."
+	exit 1
+fi
+
+echo "$script_code" > "$tmp_path"
 #cat server_monitor.txt > "$tmp_path"
 chmod +x "$tmp_path"
 

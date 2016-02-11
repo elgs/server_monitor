@@ -156,7 +156,7 @@ if [[ "$status" != "" ]]; then
   status_code=1
 fi
 
-curl -s -0 -X POST \
+curl -s0 -X POST \
 -H "token: ""$token" \
 -H "app_id: ""$app_id" \
 -F "query_params=$server_id" \
