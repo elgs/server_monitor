@@ -141,11 +141,20 @@ if [[ "$monitor_mysql_slave" -eq 1 ]]; then
   line3=`sed '3q;d' <(echo "$mysql_slave_data")`
   line3=`sed -e 's/[[:space:]]*$//' <<<${line3}`
   seconds_behind_master=`sed -e 's/[[:space:]]*$//' <<<${line3##*:}`
+  if [[ "$slave_io_running" != "Yes" ]]; then
+    status="${status}${line1},"
+  fi
+  if [[ "$slave_sql_running" != "Yes" ]]; then
+    status="${status}${line2},"
+  fi
+  if [[ "$seconds_behind_master" > 5 ]]; then
+    status="${status}${line3},"
+  fi
   if [[ "$slave_io_running" != "Yes" ]] || [[ "$slave_sql_running" != "Yes" ]] || [[ "$seconds_behind_master" > 5 ]]; then
     line4=`sed '4q;d' <(echo "$mysql_slave_data")`
     line4=`sed -e 's/[[:space:]]*$//' <<<${line4}`
     slave_sql_running_state=`sed -e 's/[[:space:]]*$//' <<<${line4##*:}`
-    status="${status}${line1},${line2},${line3},${slave_sql_running_state},"
+    status="${status}${slave_sql_running_state},"
   fi
 fi
 
