@@ -65,13 +65,15 @@ IFS=' ' read rx tx <<< $(cat /proc/net/dev | grep "$nic" | awk -F ':' '{print $2
 
 rx_rate=`bc <<< "(${rx}-${last_rx})/${seconds_since_last_update}"`
 tx_rate=`bc <<< "(${tx}-${last_tx})/${seconds_since_last_update}"`
+rx_rate_text=$(printf '%.2f' `bc <<< "${rx_rate}/1048576"`)
+tx_rate_text=$(printf '%.2f' `bc <<< "${tx_rate}/1048576"`)
 
 if (( `bc <<< "${rx_rate} >= ${warn_rx_rate}"` )); then
-  status="${status}rx_rate:${rx_rate},"
+  status="${status}rx_rate:${rx_rate_text},"
 fi
 
 if (( `bc <<< "${tx_rate} >= ${warn_tx_rate}"` )); then
-  status="${status}tx_rate:${tx_rate},"
+  status="${status}tx_rate:${tx_rate_text},"
 fi
 
 conn=$(netstat -an | wc -l)
@@ -81,34 +83,34 @@ fi
 
 cpu=$(sed -n '2p' <(top -bn2 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1}'))
 if (( `bc <<< "${cpu} >= ${warn_cpu}"` )); then
-  status="${status}cpu:${cpu},"
+  status="${status}cpu:${cpu}%,"
 fi
 
 if [[ -f "/usr/bin/apt-get" ]]; then
   IFS=' ' read ram_used ram_total <<< $(free | awk 'NR==3{print $3, $3+$4}')
   if (( `bc <<< "${ram_used}*100/${ram_total} >= ${warn_ram}"` )); then
-    status="${status}ram:`bc<<<${ram_used}*100/${ram_total}`,"
+    status="${status}ram:`bc<<<${ram_used}*100/${ram_total}`%,"
   fi
 
   IFS=' ' read swap_used swap_total <<< $(free | awk 'NR==4{print $3, $2}')
   if (( "$swap_total" > 0  )) && (( `bc <<< "${swap_used}*100/${swap_total} >= ${warn_swap}"` )); then
-    status="${status}swap:`bc<<<${swap_used}*100/${swap_total}`,"
+    status="${status}swap:`bc<<<${swap_used}*100/${swap_total}`%,"
   fi
 elif [[ -f "/usr/bin/yum" ]]; then
   IFS=' ' read ram_used ram_total <<< $(free | awk 'NR==2{print $3, $2}')
   if (( `bc <<< "${ram_used}*100/${ram_total} >= ${warn_ram}"` )); then
-    status="${status}ram:`bc<<<${ram_used}*100/${ram_total}`,"
+    status="${status}ram:`bc<<<${ram_used}*100/${ram_total}`%,"
   fi
 
   IFS=' ' read swap_used swap_total <<< $(free | awk 'NR==3{print $3, $2}')
   if (( "$swap_total" > 0  )) && (( `bc <<< "${swap_used}*100/${swap_total} >= ${warn_swap}"` )); then
-    status="${status}swap:`bc<<<${swap_used}*100/${swap_total}`,"
+    status="${status}swap:`bc<<<${swap_used}*100/${swap_total}`%,"
   fi
 fi
 
 IFS=' ' read disk_used disk_total <<< $(df "$mount_point" | awk 'NR==2{print $3, $2}')
 if (( `bc <<< "${disk_used}*100/${disk_total} >= ${warn_disk}"` )); then
-  status="${status}disk:`bc<<<${disk_used}*100/${disk_total}`,"
+  status="${status}disk:`bc<<<${disk_used}*100/${disk_total}`%,"
 fi
 
 IFS=' ' read disk_read disk_write sys_load <<< $(sed -n '4p' <(dstat -dl --nocolor 1 1) | awk -F '|' '{print $1,$2}' | awk '{print $1,$2,$3}')
