@@ -33,7 +33,7 @@ if [[ -z "$server_data" ]]; then
 fi
 
 server_profile=$(echo "$server_data" | jq -r '.data[0].SERVER_PROFILE')
-if [[ "$server_profile" == "null" ]]; then
+if [[ -z "$server_profile" ]] || [[ "$server_profile" == "null" ]]; then
   >&2 echo "Failed to get server infomation. Possibly invalid server id."
   exit 1
 fi
