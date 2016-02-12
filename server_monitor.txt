@@ -194,7 +194,6 @@ curl -s0 -X POST \
 "$tx"","\
 "$rx_rate"","\
 "$tx_rate"","\
-"$seconds_since_last_update"","\
 "$uptime"","\
 "$conn"","\
 "'$mon_ps',"\
