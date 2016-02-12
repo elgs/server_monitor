@@ -23,7 +23,7 @@ monitor_mysql_slave=__monitor_mysql_slave__
 
 uptime=$(date -u "+%Y-%m-%d %H:%M:%S" -d "`awk '{print $1}' /proc/uptime` seconds ago")
 
-server_data=`curl -s -0 -X GET \
+server_data=`curl -s0 -X GET \
 -H "token: ""$token" \
 -H "app_id: ""$app_id" \
 -F "params=$server_id" \
@@ -188,6 +188,7 @@ curl -s0 -X POST \
 "$tx"","\
 "$rx_rate"","\
 "$tx_rate"","\
+"$seconds_since_last"","\
 "$uptime"","\
 "$conn"","\
 "'$mon_ps',"\
